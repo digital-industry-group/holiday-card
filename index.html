@@ -8,24 +8,39 @@
       rel="stylesheet"
     />
     <style>
+      html {
+        background: #378c506b;
+      }
+
       html,
       body {
         height: 100%;
         width: 100%;
-        background: #5d86b7;
         font-family: "Nunito Sans", sans-serif;
         font-family: "Source Code Pro", monospace;
       }
-      html, body, main {
+
+      html,
+      body,
+      main {
         padding: 0;
         margin: 0;
       }
+
+      body {
+        background-image: url("assets/dig.svg");
+        background-repeat: space repeat;
+        background-position: center;
+        background-size: 150px;
+      }
+
       .card-container {
         display: flex;
         justify-content: center;
         width: 100%;
         padding: 5vh 10px 0 10px;
       }
+
       .card {
         background: #efefef;
         width: 500px;
@@ -34,17 +49,39 @@
         display: block;
         border-radius: 10px;
         border: 1px solid #ddd;
+        position: relative;
+        box-shadow: 2px 2px 8px #0518008f;
       }
 
       .toolbar {
         display: flex;
+        align-items: center;
         border-radius: 10px;
         background: #ccc;
         padding: 0 5px 3px 3px;
       }
 
+      .bottom-toolbar {
+        background: #fff;
+        position: absolute;
+        bottom: 1px;
+        left: 1px;
+        right: 1px;
+        border-radius: 10px;
+        font-size: 12px;
+        padding: 2px;
+        text-align: center;
+        color: #555;
+      }
+
       .traffic-light {
         padding: 0 2px 0px 4px;
+      }
+
+      .toolbar .greeting {
+        font-size: 13px;
+        text-transform: uppercase;
+        margin-left: 10px;
       }
 
       .xmas {
@@ -75,16 +112,19 @@
   </head>
   <body>
     <main>
-        <div class="card-container">
-      <div class="card">
-        <div class="toolbar">
-          <div class="traffic-light">🔴</div>
-          <div class="traffic-light">🟡</div>
-          <div class="traffic-light">🟢</div>
+      <div class="card-container">
+        <div class="card">
+          <div class="toolbar">
+            <div class="traffic-light">🔴</div>
+            <div class="traffic-light">🟡</div>
+            <div class="traffic-light">🟢</div>
+            <div class="greeting">Greeting</div>
+          </div>
+          <h1 id="greeting">&gt;</h1>
+          <div class="bottom-toolbar">
+            With ❤️ from DIG
+          </div>
         </div>
-    
-        <h1 id="greeting">&gt;</h1>
-    </div>
       </div>
       <div class="xmas">
         <img
@@ -101,8 +141,8 @@
     </main>
     <script>
       let i = 0;
-      const greeting = "Happy Holidays!";
-      const speed = 100;
+      const greeting = " Happy Holidays!";
+      const speed = 120;
 
       const typeWriter = () => {
         if (i < greeting.length) {
