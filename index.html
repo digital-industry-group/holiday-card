@@ -1,15 +1,15 @@
 <html>
   <head>
     <title>Happy Holidays from DIG!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500&family=Source+Code+Pro:wght@500&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <meta charset="UTF-8" />
     <style>
       html {
         background: #378c506b;
@@ -30,6 +30,11 @@
         margin: 0;
       }
 
+      main {
+        height: 100%;
+        position: relative;
+      }
+
       body {
         background-image: url("assets/dig.svg");
         background-repeat: repeat;
@@ -37,23 +42,61 @@
         background-size: 20vw;
       }
 
-      .card-container {
-        display: flex;
-        justify-content: center;
+      .desktop {
         width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
       }
 
       .card {
-        margin: 5vh 20px 0 20px;
+        margin-left: auto;
+        margin-right: auto;
         background: #efefef;
         width: 500px;
+        max-width: calc(100% - 6vw);
         height: 300px;
-        max-width: 100%;
         display: block;
         border-radius: 10px;
         border: 1px solid #ddd;
         position: relative;
         box-shadow: 2px 2px 8px #0518008f;
+        z-index: 2;
+        cursor: move;
+        position: absolute;
+        user-select: none;
+        top: 5vh;
+        left: calc(50% - 250px);
+      }
+
+      .egg {
+        position: absolute;
+        top: 7vh;
+        left: calc(50% - 40px);
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .egg .emoji {
+        font-size: 100px;
+      }
+
+      .egg p {
+        text-align: center;
+        font-size: 12px;
+        max-width: 200px;
+      }
+
+      @media screen and (max-width: 500px) {
+        .card {
+          left: 3vw;
+        }
       }
 
       .toolbar {
@@ -62,6 +105,12 @@
         border-radius: 9px;
         background: #ccc;
         padding: 0 5px 3px 3px;
+        cursor: move;
+      }
+
+      .toolbar * {
+        pointer-events: none;
+        user-select: none;
       }
 
       .bottom-toolbar {
@@ -117,8 +166,8 @@
   </head>
   <body>
     <main>
-      <div class="card-container">
-        <div class="card">
+      <div class="desktop">
+        <div class="card" id="draggable">
           <div class="toolbar">
             <div class="traffic-light">🔴</div>
             <div class="traffic-light">🟡</div>
@@ -126,10 +175,12 @@
             <div class="greeting">Greeting</div>
           </div>
           <h1 id="greeting">&gt;</h1>
-          <div class="bottom-toolbar">
-            With ❤️ from DIG
-          </div>
+          <div class="bottom-toolbar">With ❤️ from DIG</div>
         </div>
+      </div>
+      <div class="egg">
+        <div class="emoji">🐣</div>
+        <p>You found it! Contact Daniel Shamburger for your prize.</p>
       </div>
       <div class="xmas">
         <img
@@ -149,6 +200,7 @@
       const greeting = " Happy Holidays!";
       const speed = 120;
 
+      // thanks https://www.w3schools.com/howto/howto_js_typewriter.asp
       const typeWriter = () => {
         if (i < greeting.length) {
           const element = document.getElementById("greeting");
@@ -162,6 +214,48 @@
       };
 
       setTimeout(typeWriter, 1000);
+
+      // thanks https://www.w3schools.com/howto/howto_js_draggable.asp
+      dragElement(document.getElementById("draggable"));
+
+      function dragElement(element) {
+        var pos1 = 0,
+          pos2 = 0,
+          pos3 = 0,
+          pos4 = 0;
+          element.onmousedown = dragMouseDown;
+        
+
+        function dragMouseDown(e) {
+          e = e || window.event;
+          e.preventDefault();
+          // get the mouse cursor position at startup:
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          document.onmouseup = closeDragElement;
+          // call a function whenever the cursor moves:
+          document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+          e = e || window.event;
+          e.preventDefault();
+          // calculate the new cursor position:
+          pos1 = pos3 - e.clientX;
+          pos2 = pos4 - e.clientY;
+          pos3 = e.clientX;
+          pos4 = e.clientY;
+          // set the element's new position:
+          element.style.top = element.offsetTop - pos2 + "px";
+          element.style.left = element.offsetLeft - pos1 + "px";
+        }
+
+        function closeDragElement() {
+          /* stop moving when mouse button is released:*/
+          document.onmouseup = null;
+          document.onmousemove = null;
+        }
+      }
     </script>
   </body>
 </html>
