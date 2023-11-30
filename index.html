@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500&family=Source+Code+Pro:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        background: #5d86b7;
+        font-family: "Nunito Sans", sans-serif;
+        font-family: "Source Code Pro", monospace;
+      }
+      html, body, main {
+        padding: 0;
+        margin: 0;
+      }
+      .card-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 5vh 10px 0 10px;
+      }
+      .card {
+        background: #efefef;
+        width: 500px;
+        height: 400px;
+        max-width: 100%;
+        display: block;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+      }
+
+      .toolbar {
+        display: flex;
+        border-radius: 10px;
+        background: #ccc;
+        padding: 0 5px 3px 3px;
+      }
+
+      .traffic-light {
+        padding: 0 2px 0px 4px;
+      }
+
+      .xmas {
+        position: absolute;
+        left: 10px;
+        bottom: 2%;
+      }
+
+      .hanukkah {
+        position: absolute;
+        right: 10px;
+        bottom: 2%;
+      }
+
+      .xmas,
+      .hanukkah {
+        width: 200px;
+        height: 200px;
+      }
+
+      .xmas img,
+      .hanukkah img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+        <div class="card-container">
+      <div class="card">
+        <div class="toolbar">
+          <div class="traffic-light">🔴</div>
+          <div class="traffic-light">🟡</div>
+          <div class="traffic-light">🟢</div>
+        </div>
+    
+        <h1 id="greeting">&gt;</h1>
+    </div>
+      </div>
+      <div class="xmas">
+        <img
+          src="https://em-content.zobj.net/source/apple/354/christmas-tree_1f384.png"
+          alt="xmas tree"
+        />
+      </div>
+      <div class="hanukkah">
+        <img
+          src="https://em-content.zobj.net/source/facebook/92/menorah-with-nine-branches_1f54e.png"
+          alt="menorah"
+        />
+      </div>
+    </main>
+    <script>
+      let i = 0;
+      const greeting = "Happy Holidays!";
+      const speed = 100;
+
+      const typeWriter = () => {
+        if (i < greeting.length) {
+          const element = document.getElementById("greeting");
+          greeting.split("").forEach((char, index) => {
+            setTimeout(() => {
+              element.innerHTML += char;
+            }, speed * index);
+          });
+          i = greeting.length;
+        }
+      };
+
+      setTimeout(typeWriter, 1000);
+    </script>
+  </body>
+</html>
