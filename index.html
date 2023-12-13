@@ -72,25 +72,31 @@
         left: calc(50% - 250px);
       }
 
-      .egg {
+      .background-text {
         position: absolute;
-        top: 7vh;
-        left: calc(50% - 40px);
+        top: 10vh;
+        left: calc(50% - 100px);
         z-index: 1;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        background: green;
+        color: #fff;
+        padding: 10px;
+        border-radius: 10px;
       }
 
-      .egg .emoji {
-        font-size: 100px;
+      .background-text a {
+        color: #fff;
       }
 
-      .egg p {
+      .background-text p {
+        margin: 0;
         text-align: center;
-        font-size: 12px;
         max-width: 200px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       }
 
       @media screen and (max-width: 500px) {
@@ -178,84 +184,76 @@
           <div class="bottom-toolbar">With ❤️ from DIG</div>
         </div>
       </div>
-      <div class="egg">
-        <div class="emoji">🐣</div>
-        <p>You found the Easter egg! Contact Daniel Shamburger for your prize.</p>
+      <div class="background-text">
+        <p>Happy Holidays from <a href="https://dig.solutions">DIG</a>!</p>
       </div>
       <div class="xmas">
         <img
-          src="https://em-content.zobj.net/source/apple/354/christmas-tree_1f384.png"
+          src="assets/christmas-tree.png"
           alt="xmas tree"
         />
       </div>
       <div class="hanukkah">
         <img
-          src="https://em-content.zobj.net/source/facebook/92/menorah-with-nine-branches_1f54e.png"
+          src="assets/menorah.png"
           alt="menorah"
         />
       </div>
     </main>
     <script>
-      let i = 0;
       const greeting = " Happy Holidays!";
-      const speed = 120;
+      const typingSpeed = 120;
+      const greetElement = document.getElementById("greeting");
 
-      // thanks https://www.w3schools.com/howto/howto_js_typewriter.asp
+      // inspired by https://www.w3schools.com/howto/howto_js_typewriter.asp
       const typeWriter = () => {
-        if (i < greeting.length) {
-          const element = document.getElementById("greeting");
-          greeting.split("").forEach((char, index) => {
-            setTimeout(() => {
-              element.innerHTML += char;
-            }, speed * index);
-          });
-          i = greeting.length;
-        }
+        greeting.split("").forEach((char, index) => {
+          setTimeout(() => {
+            greetElement.textContent = greetElement.textContent + char;
+          }, typingSpeed * index);
+        });
       };
 
       setTimeout(typeWriter, 1000);
 
-      // thanks https://www.w3schools.com/howto/howto_js_draggable.asp
-      dragElement(document.getElementById("draggable"));
+      // inspired by https://www.w3schools.com/howto/howto_js_draggable.asp
+      const draggable = (element) => {
+        let top = 0;
+        let left = 0;
+        let bottom = 0;
+        let right = 0;
 
-      function dragElement(element) {
-        var pos1 = 0,
-          pos2 = 0,
-          pos3 = 0,
-          pos4 = 0;
-          element.onmousedown = dragMouseDown;
-        
-
-        function dragMouseDown(e) {
-          e = e || window.event;
+        const dragElement = (e) => {
           e.preventDefault();
-          // get the mouse cursor position at startup:
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          document.onmouseup = closeDragElement;
-          // call a function whenever the cursor moves:
-          document.onmousemove = elementDrag;
+
+          left = bottom - e.clientX;
+          top = right - e.clientY;
+          bottom = e.clientX;
+          right = e.clientY;
+
+          element.style.top = element.offsetTop - top + "px";
+          element.style.left = element.offsetLeft - left + "px";
         }
 
-        function elementDrag(e) {
-          e = e || window.event;
-          e.preventDefault();
-          // calculate the new cursor position:
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          // set the element's new position:
-          element.style.top = element.offsetTop - pos2 + "px";
-          element.style.left = element.offsetLeft - pos1 + "px";
-        }
-
-        function closeDragElement() {
-          /* stop moving when mouse button is released:*/
+        const endDrag = () => {
           document.onmouseup = null;
           document.onmousemove = null;
         }
+        
+        const startDrag = (e) => {
+          e.preventDefault();
+
+          bottom = e.clientX;
+          right = e.clientY;
+
+          document.onmouseup = endDrag;
+          document.onmousemove = dragElement;
+        }
+
+        element.onmousedown = startDrag;
       }
+
+      draggable(document.getElementById("draggable"));
     </script>
   </body>
 </html>
