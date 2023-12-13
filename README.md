@@ -2,4 +2,4 @@
 
 A quick little fun project for a creative holiday card competition.
 
-Deployed [with Netlify](https://dig-holiday-card.netlify.app).
+Deployed [with GitHub pages here](http://happy-holidays.thedigteam.tech/).
